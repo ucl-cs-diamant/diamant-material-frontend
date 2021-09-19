@@ -13,7 +13,7 @@ Diamant frontend with material UI imported
 
 ## Quick start
 
-- [Download from Github](https://github.com/devias-io/material-kit-react/archive/master.zip) or [Download from Devias](https://devias.io/products/material-kit-react) or clone the repo: `git clone https://github.com/devias-io/material-kit-react.git`
+- [Download from Github](https://github.com/ucl-cs-diamant/diamant-material-frontend/archive/refs/heads/master.zip) or clone the repo: `git clone https://github.com/ucl-cs-diamant/diamant-material-frontend.git`
 
 - Make sure your NodeJS and npm versions are up to date for `React 17`
 
@@ -26,7 +26,7 @@ Diamant frontend with material UI imported
 ## File Structure
 
 Within the download you'll find the following directories and files:
-
+*NOTE: THIS IS OUT OF DATE ATM*
 ```
 material-react-dashboard
 
