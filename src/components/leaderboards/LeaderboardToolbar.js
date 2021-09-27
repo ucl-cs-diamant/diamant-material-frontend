@@ -29,7 +29,7 @@ const LeaderboardToolbar = (props) => (
                   </InputAdornment>
                 )
               }}
-              placeholder="Search customer"
+              placeholder="Search Player"
               variant="outlined"
             />
           </Box>

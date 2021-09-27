@@ -40,6 +40,12 @@ const LeaderboardResults = ({ leaderboard, ...rest }) => {
                 <TableCell>
                   MMR
                 </TableCell>
+                <TableCell>
+                  Games Played
+                </TableCell>
+                <TableCell>
+                  League
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -60,12 +66,54 @@ const LeaderboardResults = ({ leaderboard, ...rest }) => {
                         color="textPrimary"
                         variant="body1"
                       >
-                        <a href={item.user}>{item.user_name}:</a>
+                        {item.user_name===null ? <p>Bot#{item.pk}</p> : <a href={item.user}>{item.user_name}:</a>}
                       </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
-                    {item.mmr}
+                    <Box
+                      sx={{
+                        alignItems: 'center',
+                        display: 'flex'
+                      }}
+                    >
+                      <Typography
+                        color="textPrimary"
+                        variant="body1"
+                      >
+                        {item.mmr}
+                      </Typography>
+                    </Box>
+                  </TableCell>
+                  <TableCell>
+                    <Box
+                      sx={{
+                        alignItems: 'center',
+                        display: 'flex'
+                      }}
+                    >
+                      <Typography
+                        color="textPrimary"
+                        variant="body1"
+                      >
+                        {item.games_played}
+                      </Typography>
+                    </Box>
+                  </TableCell>
+                  <TableCell>
+                    <Box
+                      sx={{
+                        alignItems: 'center',
+                        display: 'flex'
+                      }}
+                    >
+                      <Typography
+                        color="textPrimary"
+                        variant="body1"
+                      >
+                        {item.league}
+                      </Typography>
+                    </Box>
                   </TableCell>
                 </TableRow>
               ))}

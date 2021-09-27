@@ -1,12 +1,11 @@
 import {
   Avatar,
-  Box,
   Card,
   CardContent,
   Grid,
   Typography
 } from '@material-ui/core';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+// import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import MoneyIcon from '@material-ui/icons/Money';
 import { red } from '@material-ui/core/colors';
 import React from 'react';
@@ -49,30 +48,30 @@ const MMRCard = (props) => (
           </Avatar>
         </Grid>
       </Grid>
-      <Box
-        sx={{
-          pt: 2,
-          display: 'flex',
-          alignItems: 'center'
-        }}
-      >
-        <ArrowDownwardIcon sx={{ color: red[900] }} />
-        <Typography
-          sx={{
-            color: red[900],
-            mr: 1
-          }}
-          variant="body2"
-        >
-          12%
-        </Typography>
-        <Typography
-          color="textSecondary"
-          variant="caption"
-        >
-          Since last month
-        </Typography>
-      </Box>
+      {/*<Box*/}
+      {/*  sx={{*/}
+      {/*    pt: 2,*/}
+      {/*    display: 'flex',*/}
+      {/*    alignItems: 'center'*/}
+      {/*  }}*/}
+      {/*>*/}
+      {/*  <ArrowDownwardIcon sx={{ color: red[900] }} />*/}
+      {/*  <Typography*/}
+      {/*    sx={{*/}
+      {/*      color: red[900],*/}
+      {/*      mr: 1*/}
+      {/*    }}*/}
+      {/*    variant="body2"*/}
+      {/*  >*/}
+      {/*    12%*/}
+      {/*  </Typography>*/}
+      {/*  <Typography*/}
+      {/*    color="textSecondary"*/}
+      {/*    variant="caption"*/}
+      {/*  >*/}
+      {/*    Since last month*/}
+      {/*  </Typography>*/}
+      {/*</Box>*/}
     </CardContent>
   </Card>
 );

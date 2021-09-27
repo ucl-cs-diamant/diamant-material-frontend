@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Box, Container, Grid } from '@material-ui/core';
-import LatestProducts from '../components/dashboard/LatestProducts';
+// import LatestProducts from '../components/dashboard/LatestProducts';
 import Sales from '../components/dashboard/Sales';
 import GamesPlayedCard from '../components/dashboard/GamesPlayedCard';
 import CommitTimeCard from '../components/dashboard/CommitTimeCard';
@@ -39,7 +39,7 @@ class Dashboard extends React.Component {
 
   load_match_history() {
     fetch(
-      `http://192.168.135.128:8000/users/2/user_match_list/?format=json`
+      `http://192.168.135.128:8000/users/102/user_match_list/?format=json`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -52,21 +52,21 @@ class Dashboard extends React.Component {
   // }
 
   componentDidMount() {
-    fetch('http://192.168.135.128:8000/users/2/?format=json')
+    fetch('http://192.168.135.128:8000/users/102/?format=json')
       .then((response) => response.json())
       .then((data) => {
         this.setState({ email_address: data.email_address });
         this.setState({ github_username: data.github_username });
         this.setState({ student_id: data.student_id });
       });
-    fetch('http://192.168.135.128:8000/users/2/performance_list/?format=json')
+    fetch('http://192.168.135.128:8000/users/102/performance_list/?format=json')
       .then((response) => response.json())
       .then((data) => {
         this.setState({ user_name: data[0].user_name });
         this.setState({ mmr: data[0].mmr });
         this.setState({ games_played: data[0].games_played });
       });
-    fetch('http://192.168.135.128:8000/users/2/user_code_list/?format=json')
+    fetch('http://192.168.135.128:8000/users/102/user_code_list/?format=json')
       .then((response) => response.json())
       .then((data) => {
         this.setState({
@@ -155,15 +155,6 @@ class Dashboard extends React.Component {
               xs={12}
             >
               <TrafficByDevice sx={{ height: '100%' }} />
-            </Grid>
-            <Grid
-              item
-              lg={4}
-              md={6}
-              xl={3}
-              xs={12}
-            >
-              <LatestProducts sx={{ height: '100%' }} />
             </Grid>
             <Grid
               item

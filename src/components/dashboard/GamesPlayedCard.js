@@ -1,11 +1,9 @@
 import React from 'react';
 import {
   Avatar,
-  Box,
   Card,
   CardContent,
   Grid,
-  LinearProgress,
   Typography
 } from '@material-ui/core';
 import { orange } from '@material-ui/core/colors';
@@ -49,12 +47,12 @@ const GamesPlayedCard = (props) => (
           </Avatar>
         </Grid>
       </Grid>
-      <Box sx={{ pt: 3 }}>
-        <LinearProgress
-          value={75.5}
-          variant="determinate"
-        />
-      </Box>
+      {/*<Box sx={{ pt: 3 }}>*/}
+      {/*  <LinearProgress*/}
+      {/*    value={75.5}*/}
+      {/*    variant="determinate"*/}
+      {/*  />*/}
+      {/*</Box>*/}
     </CardContent>
   </Card>
 );
