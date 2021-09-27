@@ -62,12 +62,20 @@ const LeaderboardResults = ({ leaderboard, ...rest }) => {
                         display: 'flex'
                       }}
                     >
-                      <Typography
-                        color="textPrimary"
-                        variant="body1"
-                      >
-                        {item.user_name===null ? <p>Bot#{item.pk}</p> : <a href={item.user}>{item.user_name}:</a>}
-                      </Typography>
+                      {item.user_name===null ?
+                        <Typography
+                          color="textPrimary"
+                          variant="body1"
+                        >
+                          Bot#{item.pk}
+                        </Typography> :
+                        <Typography
+                          color="textPrimary"
+                          variant="body1"
+                        >
+                        <a href={item.user}>{item.user_name}</a>
+                        </Typography>}
+
                     </Box>
                   </TableCell>
                   <TableCell>
