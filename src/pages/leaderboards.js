@@ -24,7 +24,7 @@ class Leaderboards extends React.Component {
 
   load_user_elos() {
     fetch(
-      `http://192.168.135.128:8000/user_performances/?format=json`
+      `http://localhost:8000/api/user_performances/?format=json`
     )
       .then((response) => response.json())
       .then((data) => {

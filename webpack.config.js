@@ -11,6 +11,10 @@ module.exports = {
     // webpack 5 comes with devServer which loads in development mode
     devServer: {
         port: 3000,
+        host: '0.0.0.0',
+        disableHostCheck: true,
+        clientLogLevel: 'trace',
+        onListening: function (server){console.log(server.listeningApp.address().port)},
         watchContentBase: true,
         historyApiFallback: true  // need to always serve index.html for any path when using react router
     },

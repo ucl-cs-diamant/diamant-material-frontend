@@ -29,7 +29,7 @@ class PlayerHome extends React.Component {
 
   load_match_history() {
     fetch(
-      `http://192.168.135.128:8000/users/2/user_match_list/?format=json&limit=${this.state.perPage}&offset=${this.state.offset}`
+      `http://localhost:8000/api/users/2/user_match_list/?format=json&limit=${this.state.perPage}&offset=${this.state.offset}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -63,21 +63,21 @@ class PlayerHome extends React.Component {
   }
 
   componentDidMount() {
-    fetch('http://192.168.135.128:8000/users/2/?format=json')
+    fetch('http://localhost:8000/api/users/2/?format=json')
       .then((response) => response.json())
       .then((data) => {
         this.setState({ email_address: data.email_address });
         this.setState({ github_username: data.github_username });
         this.setState({ student_id: data.student_id });
       });
-    fetch('http://192.168.135.128:8000/users/2/performance_list/?format=json')
+    fetch('http://localhost:8000/api/users/2/performance_list/?format=json')
       .then((response) => response.json())
       .then((data) => {
         this.setState({ user_name: data[0].user_name });
         this.setState({ mmr: data[0].mmr });
         this.setState({ games_played: data[0].games_played });
       });
-    fetch('http://192.168.135.128:8000/users/2/user_code_list/?format=json')
+    fetch('http://localhost:8000/api/users/2/user_code_list/?format=json')
       .then((response) => response.json())
       .then((data) => {
         this.setState({

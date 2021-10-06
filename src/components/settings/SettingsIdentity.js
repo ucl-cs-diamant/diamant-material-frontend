@@ -17,8 +17,9 @@ class SettingsIdentity extends React.Component {
 
     this.state = {
       hidden: true,
-      selected_option: "github_username",
-      display_name: "placeholder",
+      selected_option: 0,
+      display_name: "",
+      options: [],
 
     }
     this.handleDisplaychange = this.handleDisplaychange.bind(this);
@@ -27,7 +28,22 @@ class SettingsIdentity extends React.Component {
   }
 
   componentDidMount() {
-
+    fetch(
+      `http://localhost:8000/api/settings/account_settings/?format=json`,
+      {credentials: 'include'}
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        let tempoptions = []
+        for (const [key,value] of Object.entries(data.display_name_options)) {
+          tempoptions.push(<MenuItem key={value.option} value={value.option}>{key}: {value.value}</MenuItem>)
+        }
+        this.setState({
+          hidden: data.hide_identity,
+          display_name: data.display_name,
+          options: tempoptions
+        });
+      });
   }
 
   handleCheckboxchange(event) {
@@ -102,14 +118,14 @@ class SettingsIdentity extends React.Component {
                   sx={{width: 1}}
                   labelId="display_name"
                   id="display_name"
-                  value={this.state.display_name}
+                  value={this.state.selected_option}
                   label={this.state.display_name}
                   variant='outlined'
                   onChange={this.handleDisplaychange}
                 >
-                  <MenuItem value={this.state.selected_option}>{this.state.selected_option}: {this.state.options[i]}</MenuItem>
-                  <MenuItem value={2}>{this.state.display_name}</MenuItem>
-                  <MenuItem value={3}>{this.state.display_name}</MenuItem>
+                  {this.state.options.map((item) => (
+                    item
+                  ))}
                 </Select>
               </Grid>
             </Grid>

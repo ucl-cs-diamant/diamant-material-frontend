@@ -81,7 +81,7 @@ class DashboardSidebar extends React.Component {
   }
 
   componentDidMount() {
-    fetch('http://192.168.135.128:8000/users/102/?format=json')
+    fetch('http://localhost:8000/api/users/102/?format=json')
       .then((response) => response.json())
       .then((data) => {
         this.setState({ github_username: data.github_username });
