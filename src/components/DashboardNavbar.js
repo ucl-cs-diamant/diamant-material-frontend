@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import {
   AppBar,
   Badge,
-  Box,
+  Box, Button,
   Hidden,
   IconButton,
   Toolbar
@@ -28,25 +28,44 @@ const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
           <Logo />
         </RouterLink>
         <Box sx={{ flexGrow: 1 }} />
-        <Hidden xlDown>
-          <IconButton color="inherit" size="large">
-            <Badge
-              badgeContent={notifications.length}
-              color="primary"
-              variant="dot"
+
+        {/* todo: change sign in/sign out button depending on auth state */}
+        <Box sx={{ my: 'auto' }}>
+          <RouterLink to="/login">
+            <Button
+              variant="outlined"
+              sx={{
+                color: '#ffffff',
+                borderColor: '#ffffff',
+                ':hover': {
+                  color: '#ffffff',
+                  borderColor: '#dddddd',
+                }
+              }}
             >
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <IconButton color="inherit" size="large">
-            <InputIcon />
-          </IconButton>
-        </Hidden>
-        <Hidden lgUp>
-          <IconButton color="inherit" onClick={onMobileNavOpen} size="large">
-            <MenuIcon />
-          </IconButton>
-        </Hidden>
+              Sign in
+            </Button>
+          </RouterLink>
+        </Box>
+        {/* <Hidden xlDown> */}
+        {/*   <IconButton color="inherit" size="large"> */}
+        {/*     <Badge */}
+        {/*       badgeContent={notifications.length} */}
+        {/*       color="primary" */}
+        {/*       variant="dot" */}
+        {/*     > */}
+        {/*       <NotificationsIcon /> */}
+        {/*     </Badge> */}
+        {/*   </IconButton> */}
+        {/*   <IconButton color="inherit" size="large"> */}
+        {/*     <InputIcon /> */}
+        {/*   </IconButton> */}
+        {/* </Hidden> */}
+        {/* <Hidden lgUp> */}
+        {/*   <IconButton color="inherit" onClick={onMobileNavOpen} size="large"> */}
+        {/*     <MenuIcon /> */}
+        {/*   </IconButton> */}
+        {/* </Hidden> */}
       </Toolbar>
     </AppBar>
   );
