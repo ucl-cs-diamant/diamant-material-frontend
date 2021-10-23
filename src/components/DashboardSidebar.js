@@ -76,16 +76,25 @@ class DashboardSidebar extends React.Component {
 
     this.state = {
       github_username: "",
-      student_id: ""
+      student_id: "",
+      user_url: ""
     }
   }
 
   componentDidMount() {
-    fetch('http://192.168.135.128:8000/users/102/?format=json')
+    fetch(
+      `http://192.168.135.128/api/settings/account_settings/?format=json`,
+      {credentials: 'include'}
+    )
       .then((response) => response.json())
       .then((data) => {
-        this.setState({ github_username: data.github_username });
-        this.setState({ student_id: data.student_id });
+        this.setState({ user_url: data.user }, () =>
+          fetch(this.state.user_url)
+          .then((response) => response.json())
+          .then((data) => {
+            this.setState({ github_username: data.github_username });
+            this.setState({ student_id: data.student_id });
+          }));
       });
     if (this.props.openMobile && this.props.onMobileClose) {
       this.props.onMobileClose();

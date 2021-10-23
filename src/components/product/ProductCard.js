@@ -9,6 +9,7 @@ import {
   Typography
 } from '@material-ui/core';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import React from 'react';
 import GetAppIcon from '@material-ui/icons/GetApp';
 
 const ProductCard = ({ product, ...rest }) => (

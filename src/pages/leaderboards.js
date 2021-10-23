@@ -1,8 +1,8 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { Box, Container } from '@material-ui/core';
-import LeaderboardToolbar from '../components/leaderboards/LeaderboardToolbar';
+import { Box, Card, CardContent, Container, InputAdornment, SvgIcon, TextField } from '@material-ui/core';
 import LeaderboardResults from '../components/leaderboards/LeaderboardResults';
+import { Search as SearchIcon } from 'react-feather';
 
 class Leaderboards extends React.Component {
   constructor(props) {
@@ -10,17 +10,21 @@ class Leaderboards extends React.Component {
 
     this.state = {
       main_leaderboard: [],
+      filtered_leaderboard: [],
+      filtervalue: "",
 
       offset: 0,
       perPage: 5,
       currentPage: 0,
       pageCount: 0,
     };
+    this.handlechange = this.handlechange.bind(this);
+    this.filtertable = this.filtertable.bind(this)
   }
 
   load_user_elos() {
     fetch(
-      `http://192.168.135.128:8000/user_performances/?format=json`
+      `http://192.168.135.128/api/user_performances/?format=json`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -28,12 +32,24 @@ class Leaderboards extends React.Component {
           pageCount: Math.ceil(data.count / this.state.perPage),
 
           main_leaderboard: data.results,
-        });
+          filtered_leaderboard: data.results,
+        }, () => console.log(this.state.main_leaderboard));
       });
   }
 
   componentDidMount() {
     this.load_user_elos();
+  }
+
+  filtertable() {
+    this.setState({filtered_leaderboard:
+        this.state.main_leaderboard.filter(item => item.user_details.name===null?
+          ('Bot#'+ item.user_details.user_pk).includes(this.state.filtervalue):
+          item.user_details.name.includes(this.state.filtervalue))})
+  }
+
+  handlechange(event) {
+    this.setState({ filtervalue: event.target.value }, () => this.filtertable())
   }
 
   render() {
@@ -50,9 +66,36 @@ class Leaderboards extends React.Component {
           }}
         >
           <Container maxWidth={false}>
-            <LeaderboardToolbar />
+            <Box>
+              <Box sx={{ mt: 3 }}>
+                <Card>
+                  <CardContent>
+                    <Box sx={{ maxWidth: 500 }}>
+                      <TextField
+                        fullWidth
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <SvgIcon
+                                fontSize="small"
+                                color="action"
+                              >
+                                <SearchIcon />
+                              </SvgIcon>
+                            </InputAdornment>
+                          )
+                        }}
+                        placeholder="Search Player"
+                        variant="outlined"
+                        onChange={this.handlechange}
+                      />
+                    </Box>
+                  </CardContent>
+                </Card>
+              </Box>
+            </Box>
             <Box sx={{ pt: 3 }}>
-              <LeaderboardResults leaderboard={this.state.main_leaderboard} />
+              <LeaderboardResults leaderboard={this.state.filtered_leaderboard} />
             </Box>
           </Container>
         </Box>
