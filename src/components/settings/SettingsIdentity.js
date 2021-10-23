@@ -29,7 +29,7 @@ class SettingsIdentity extends React.Component {
 
   componentDidMount() {
     fetch(
-      `http://localhost:8000/api/settings/account_settings/?format=json`,
+      `http://192.168.135.128/api/settings/account_settings/?format=json`,
       {credentials: 'include'}
     )
       .then((response) => response.json())

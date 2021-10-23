@@ -1,14 +1,12 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Box, Container, Grid } from '@material-ui/core';
-// import LatestProducts from '../components/dashboard/LatestProducts';
 import Sales from '../components/dashboard/Sales';
 import GamesPlayedCard from '../components/dashboard/GamesPlayedCard';
 import CommitTimeCard from '../components/dashboard/CommitTimeCard';
 import CodeFailingCard from '../components/dashboard/CodeFailingCard';
 import TrafficByDevice from '../components/dashboard/TrafficByDevice';
 import MMRCard from '../components/dashboard/MMRCard';
-import MatchHistoryCard from '../components/dashboard/MatchHistoryCard';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -31,7 +29,10 @@ class Dashboard extends React.Component {
       currentPage: 0,
       pageCount: 0,
 
-      match_history: []
+      match_history: [],
+
+      user_url: "",
+      selected_bot: 0
 
     };
     // this.handlePageClick = this.handlePageClick.bind(this);
@@ -39,7 +40,7 @@ class Dashboard extends React.Component {
 
   load_match_history() {
     fetch(
-      `http://localhost:8000/api/users/102/user_match_list/?format=json`
+      `http://192.168.135.128/api/users/102/?format=json`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -51,37 +52,49 @@ class Dashboard extends React.Component {
   }
   // }
 
-  componentDidMount() {
-    fetch('http://localhost:8000/api/users/102/?format=json')
+  fetchall() {
+    fetch(this.state.user_url + '?format=json')
       .then((response) => response.json())
       .then((data) => {
         this.setState({ email_address: data.email_address });
         this.setState({ github_username: data.github_username });
         this.setState({ student_id: data.student_id });
-      });
-    fetch('http://localhost:8000/api/users/102/performance_list/?format=json')
+      })
+      fetch(this.state.user_url + 'performance_list/?format=json')
+        .then((response) => response.json())
+        .then((data) => {
+          this.setState({ user_name: data[this.state.selected_bot].user_name });
+          this.setState({ mmr: data[this.state.selected_bot].mmr });
+          this.setState({ games_played: data[this.state.selected_bot].games_played });
+        })
+      fetch(this.state.user_url + 'user_code_list/?format=json')
+        .then((response) => response.json())
+        .then((data) => {
+          this.setState({
+            commit_time: Intl.DateTimeFormat('en-GB', {
+              year: 'numeric',
+              month: 'short',
+              day: '2-digit',
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit',
+            }).format(new Date(data[this.state.selected_bot].commit_time)),
+          });
+          this.setState({ has_failed: data[this.state.selected_bot].has_failed });
+        })
+      this.load_match_history();
+  }
+
+  componentDidMount() {
+    fetch(
+      `http://192.168.135.128/api/settings/account_settings/?format=json`,
+      {credentials: 'include'}
+    )
       .then((response) => response.json())
       .then((data) => {
-        this.setState({ user_name: data[0].user_name });
-        this.setState({ mmr: data[0].mmr });
-        this.setState({ games_played: data[0].games_played });
+        this.setState({ user_url: data.user.substring(0, data.user.length - 12) }, () =>
+          this.fetchall())
       });
-    fetch('http://localhost:8000/api/users/102/user_code_list/?format=json')
-      .then((response) => response.json())
-      .then((data) => {
-        this.setState({
-          commit_time: Intl.DateTimeFormat('en-GB', {
-            year: 'numeric',
-            month: 'short',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-          }).format(new Date(data[0].commit_time)),
-        });
-        this.setState({ has_failed: data[0].has_failed });
-      });
-    this.load_match_history();
   }
 
   render() {
@@ -163,7 +176,7 @@ class Dashboard extends React.Component {
               xl={9}
               xs={12}
             >
-              <MatchHistoryCard match_history={this.state.match_history}/>
+              {/*<MatchHistoryCard match_history={this.state.match_history}/>*/}
             </Grid>
           </Grid>
         </Container>

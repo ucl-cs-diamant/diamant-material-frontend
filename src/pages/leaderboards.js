@@ -24,7 +24,7 @@ class Leaderboards extends React.Component {
 
   load_user_elos() {
     fetch(
-      `http://localhost:8000/api/user_performances/?format=json`
+      `http://192.168.135.128/api/user_performances/?format=json`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -33,7 +33,7 @@ class Leaderboards extends React.Component {
 
           main_leaderboard: data.results,
           filtered_leaderboard: data.results,
-        });
+        }, () => console.log(this.state.main_leaderboard));
       });
   }
 
@@ -43,9 +43,9 @@ class Leaderboards extends React.Component {
 
   filtertable() {
     this.setState({filtered_leaderboard:
-        this.state.main_leaderboard.filter(item => item.user_name===null?
-          ('Bot#'+ item.pk).includes(this.state.filtervalue):
-          item.user_name.includes(this.state.filtervalue))})
+        this.state.main_leaderboard.filter(item => item.user_details.name===null?
+          ('Bot#'+ item.user_details.user_pk).includes(this.state.filtervalue):
+          item.user_details.name.includes(this.state.filtervalue))})
   }
 
   handlechange(event) {

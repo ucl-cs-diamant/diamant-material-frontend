@@ -9,10 +9,11 @@ import NotFound from './pages/NotFound';
 import ProductList from './pages/ProductList';
 import Register from './pages/Register';
 import Settings from './pages/Settings';
-import PlayerHome from './pages/player_home';
 import Home from './pages/home';
 import Match from './pages/match';
 import Leaderboards from './pages/leaderboards';
+import MainLayout from './components/MainLayout';
+import Landing from './pages/Landing';
 
 const routes = [
   {
@@ -30,16 +31,22 @@ const routes = [
   },
   {
     path: '/',
-    element: <DashboardLayout />,
+    element: <MainLayout />,
     children: [
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> },
       { path: '404', element: <NotFound /> },
+      { path: '/', element: <Landing /> },
+      { path: '*', element: <Navigate to="/404" /> }
+    ]
+  },
+  {
+    path: '/',
+    element: <DashboardLayout />,
+    children: [
       { path: '/', element: <Navigate to="/app/dashboard" /> },
-      { path: 'player_home', element: <PlayerHome /> },
       { path: 'match', element: <Match /> },
       { path: 'home', element: <Home /> },
-      { path: '*', element: <Navigate to="/404" /> }
     ]
   }
 ];

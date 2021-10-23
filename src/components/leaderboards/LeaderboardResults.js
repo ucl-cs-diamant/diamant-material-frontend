@@ -52,7 +52,7 @@ const LeaderboardResults = ({ leaderboard, ...rest }) => {
               {leaderboard.slice(page * limit, page * limit + limit).map((item) => (
                 <TableRow
                   hover
-                  key={item.pk}
+                  key={item.user_details.user_pk}
                   selected={selectedUserIds.indexOf(item.pk) !== -1}
                 >
                   <TableCell>
@@ -62,18 +62,18 @@ const LeaderboardResults = ({ leaderboard, ...rest }) => {
                         display: 'flex'
                       }}
                     >
-                      {item.user_name===null ?
+                      {item.user_details.name===null ?
                         <Typography
                           color="textPrimary"
                           variant="body1"
                         >
-                          Bot#{item.pk}
+                          Bot#{item.user_details.user_pk}
                         </Typography> :
                         <Typography
                           color="textPrimary"
                           variant="body1"
                         >
-                        <a href={item.user}>{item.user_name}</a>
+                        <a href={item.user}>{item.user_details.name}</a>
                         </Typography>}
 
                     </Box>

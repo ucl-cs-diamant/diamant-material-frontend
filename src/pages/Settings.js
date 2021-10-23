@@ -2,7 +2,6 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Box, Container } from '@material-ui/core';
 import SettingsIdentity from '../components/settings/SettingsIdentity';
-import SettingsPassword from '../components/settings/SettingsPassword';
 
 const SettingsView = () => (
   <>
@@ -18,9 +17,6 @@ const SettingsView = () => (
     >
       <Container maxWidth="lg">
         <SettingsIdentity />
-        <Box sx={{ pt: 3 }}>
-          <SettingsPassword />
-        </Box>
       </Container>
     </Box>
   </>
