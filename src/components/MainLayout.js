@@ -5,9 +5,9 @@ import MainNavbar from './MainNavbar';
 
 const MainLayoutRoot = styled('div')(
   ({ theme }) => ({
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.default,
     display: 'flex',
-    height: '100%',
+    height: '135%',
     overflow: 'hidden',
     width: '100%'
   })
