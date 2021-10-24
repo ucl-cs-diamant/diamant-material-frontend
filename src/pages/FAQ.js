@@ -51,7 +51,7 @@ class FAQ extends React.Component {
               <Box sx={{ mt: 3 }}>
                 <Card>
                   <CardContent>
-                    <Box sx={{ maxWidth: 500 }}>
+                    <Box sx={{ maxWidth: false }}>
                       <TextField
                         fullWidth
                         InputProps={{

@@ -27,9 +27,9 @@ const Landing = () => {
       >
         <Grid
           container
-          spacing={3}
+          spacing={1}
         >
-        <Container maxWidth="lg">
+        <Container maxWidth="xl">
           <Grid
             item
             >
@@ -37,7 +37,8 @@ const Landing = () => {
             sx={{
               display: 'flex',
               flexDirection: 'column',
-              height: '100%'
+              height: '100%',
+              justifyContent: "center"
             }}
           >
             <CardContent>
@@ -73,7 +74,7 @@ const Landing = () => {
                 color="textPrimary"
                 variant="body1"
               >
-                Your objective will be to build a bot that will compete against other bots and win to climb the rankings, you are given free reign to use any methods
+                Your objective will be to take your default bot and improve it so that it be able to compete against other bots and win to climb the rankings, you are given free reign to use any methods
                 within the rules of the game to make the most intelligent bot
               </Typography>
             </CardContent>

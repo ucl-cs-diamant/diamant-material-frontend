@@ -9,7 +9,6 @@ import {
 } from '@material-ui/core';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import React from 'react';
-import GetAppIcon from '@material-ui/icons/GetApp';
 
 const FAQcard = ({ FAQ, ...rest }) => (
   <Card
@@ -43,7 +42,7 @@ const FAQcard = ({ FAQ, ...rest }) => (
       <Grid
         container
         spacing={2}
-        sx={{ justifyContent: 'space-between' }}
+        sx={{ justifyContent: 'center' }}
       >
         <Grid
           item
@@ -59,26 +58,7 @@ const FAQcard = ({ FAQ, ...rest }) => (
             sx={{ pl: 1 }}
             variant="body2"
           >
-            Updated 2hr ago
-          </Typography>
-        </Grid>
-        <Grid
-          item
-          sx={{
-            alignItems: 'center',
-            display: 'flex'
-          }}
-        >
-          <GetAppIcon color="action" />
-          <Typography
-            color="textSecondary"
-            display="inline"
-            sx={{ pl: 1 }}
-            variant="body2"
-          >
-            {FAQ.totalDownloads}
-            {' '}
-            Downloads
+            {FAQ.createdAt.toString()}
           </Typography>
         </Grid>
       </Grid>

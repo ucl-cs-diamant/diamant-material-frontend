@@ -9,7 +9,7 @@ const MainLayoutRoot = styled('div')(
     display: 'flex',
     height: '135%',
     overflow: 'hidden',
-    width: '100%'
+    width: '100%',
   })
 );
 
