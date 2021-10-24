@@ -4,7 +4,7 @@ import {
   Box, Card, CardContent,
   Container,
   Grid, InputAdornment,
-  Pagination, SvgIcon, TextField
+  SvgIcon, TextField
 } from '@material-ui/core';
 import FAQs from '../__mocks__/FAQs';
 import { Search as SearchIcon } from 'react-feather';
@@ -16,7 +16,6 @@ class FAQ extends React.Component {
     super(props);
 
     this.state = {
-      user_url: "",
       filtervalue: "",
       filtered_FAQ: FAQs
     };
@@ -93,19 +92,6 @@ class FAQ extends React.Component {
                   </Grid>
                 ))}
               </Grid>
-            </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                pt: 3
-              }}
-            >
-              <Pagination
-                color="primary"
-                count={3}
-                size="small"
-              />
             </Box>
           </Container>
         </Box>
