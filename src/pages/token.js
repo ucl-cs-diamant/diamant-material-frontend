@@ -11,6 +11,7 @@ import {
 } from '@material-ui/core';
 // import GitHubIcon from '@material-ui/icons/GitHub';
 import * as Yup from 'yup';
+import Cookies from 'js-cookie';
 
 const Token = () => {
   const navigate = useNavigate();
@@ -43,7 +44,10 @@ const Token = () => {
                 method: 'POST',
                 body: JSON.stringify({
                   token: values.account_token
-                })
+                }),
+                headers: {
+                  'X-CSRFToken': Cookies.get('csrftoken')
+                }
               }).then((data) => {
                 if (data.status === 201) {
                   navigate('/app/dashboard', { replace: true });

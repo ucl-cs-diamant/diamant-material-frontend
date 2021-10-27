@@ -29,11 +29,7 @@ const Login = () => {
         }}
       >
         <Container maxWidth="xs">
-          <Formik
-            onSubmit={() => {
-              navigate('/api/oauth/login', { replace: true });
-            }}
-          >
+          <Formik>
             {({
               errors,
               handleBlur,
@@ -65,7 +61,8 @@ const Login = () => {
                       color="primary"
                       fullWidth
                       startIcon={<GitHubIcon />}
-                      onClick={handleSubmit}
+                      // onClick={handleSubmit}
+                      href="/api/oauth/login"
                       size="large"
                       variant="contained"
                     >
