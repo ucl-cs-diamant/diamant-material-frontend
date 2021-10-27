@@ -52,13 +52,15 @@ const Token = () => {
                 if (data.status === 201) {
                   navigate('/app/dashboard', { replace: true });
                 }
-
-                let errorMessage = `Error linking account: HTTP error ${data.status}`;
-                if (data.message !== undefined) {
-                  errorMessage = `Error linking account: ${data.message}`;
-                }
-                actions.setErrors({ account_token: errorMessage });
-              });
+                data.json().then((d) => {
+                  let errorMessage = `Error linking account: HTTP error ${data.status}`;
+                  if (d.message !== undefined) {
+                    errorMessage = `Error linking account: ${d.message}`;
+                  }
+                  actions.setErrors({ account_token: errorMessage });
+                })
+              })
+              ;
 
               // once done with submission, setSubmitting to false
               actions.setSubmitting(false);
