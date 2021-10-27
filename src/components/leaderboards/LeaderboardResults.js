@@ -27,6 +27,10 @@ const LeaderboardResults = ({ leaderboard, ...rest }) => {
     setPage(newPage);
   };
 
+  const handleFilter = () => {
+    setPage(0);
+  }
+
   return (
     <Card {...rest}>
       <PerfectScrollbar>
@@ -75,7 +79,6 @@ const LeaderboardResults = ({ leaderboard, ...rest }) => {
                         >
                         <a href={item.user}>{item.user_details.name}</a>
                         </Typography>}
-
                     </Box>
                   </TableCell>
                   <TableCell>
@@ -134,6 +137,7 @@ const LeaderboardResults = ({ leaderboard, ...rest }) => {
         count={leaderboard.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
+        onChange={handleFilter}
         page={page}
         rowsPerPage={limit}
         rowsPerPageOptions={[5, 10, 25]}

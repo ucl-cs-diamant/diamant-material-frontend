@@ -12,6 +12,7 @@ import Settings from './pages/Settings';
 import Match from './pages/match';
 import Leaderboards from './pages/leaderboards';
 import Landing from './pages/Landing';
+import FAQ from './pages/FAQ';
 
 const routes = [
   {
@@ -36,6 +37,7 @@ const routes = [
       { path: 'link_account', element: <Token /> },
       { path: '404', element: <NotFound /> },
       { path: '/', element: <Landing /> },
+      { path: 'FAQ', element: <FAQ /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]
   }

@@ -1,15 +1,15 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { styled } from '@material-ui/core/styles';
-import MainNavbar from './MainNavbar';
+import DashboardNavbar from './DashboardNavbar';
 
 const MainLayoutRoot = styled('div')(
   ({ theme }) => ({
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.default,
     display: 'flex',
-    height: '100%',
+    height: '135%',
     overflow: 'hidden',
-    width: '100%'
+    width: '100%',
   })
 );
 
@@ -34,7 +34,7 @@ const MainLayoutContent = styled('div')({
 
 const MainLayout = () => (
   <MainLayoutRoot>
-    <MainNavbar />
+    <DashboardNavbar />
     <MainLayoutWrapper>
       <MainLayoutContainer>
         <MainLayoutContent>
