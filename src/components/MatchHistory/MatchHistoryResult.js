@@ -69,15 +69,15 @@ const MatchHistoryResult = ({ matches, ...rest }) => {
                         color="textPrimary"
                         variant="body1"
                       >
-                        {match.url}
+                        {match.url.split("/")[5]}
                       </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
-                    {match.players}
+                    {match.players.slice(1,-1)}
                   </TableCell>
                   <TableCell>
-                    {match.winners}
+                    {match.winners.slice(1,-1)}
                   </TableCell>
                   <TableCell>
                     {Intl.DateTimeFormat('en-GB', {
