@@ -31,8 +31,8 @@ class Leaderboards extends React.Component {
         this.setState({
           pageCount: Math.ceil(data.count / this.state.perPage),
 
-          main_leaderboard: data.results,
-          filtered_leaderboard: data.results,
+          main_leaderboard: data,
+          filtered_leaderboard: data,
         });
       });
   }

@@ -7,6 +7,7 @@ import CommitTimeCard from '../components/dashboard/CommitTimeCard';
 import CodeFailingCard from '../components/dashboard/CodeFailingCard';
 import TrafficByDevice from '../components/dashboard/TrafficByDevice';
 import MMRCard from '../components/dashboard/MMRCard';
+import MatchHistoryCard from '../components/dashboard/MatchHistoryCard';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -39,20 +40,23 @@ class Dashboard extends React.Component {
   }
 
   load_match_history() {
-    fetch(
-      `http://192.168.135.128/api/users/102/?format=json`
-    )
-      .then((response) => response.json())
+    fetch(this.state.user_url + `user_match_list/?format=json`)
+      .then((response) => {
+        if(response.status===204) {throw Error(response.statusText)}
+        return response.json()
+      })
       .then((data) => {
         this.setState({
           pageCount: Math.ceil(data.count / this.state.perPage),
           match_history: data.results,
         });
-      });
+      })
+    .catch(() => {
+    })
   }
-  // }
 
   fetchall() {
+    console.log(this.state.user_url)
     fetch(this.state.user_url + '?format=json')
       .then((response) => response.json())
       .then((data) => {
@@ -176,7 +180,9 @@ class Dashboard extends React.Component {
               xl={9}
               xs={12}
             >
-              {/*<MatchHistoryCard match_history={this.state.match_history}/>*/}
+              {this.state.match_history===undefined?
+                <MatchHistoryCard match_history={[]}/>:
+                <MatchHistoryCard match_history={this.state.match_history}/>}
             </Grid>
           </Grid>
         </Container>

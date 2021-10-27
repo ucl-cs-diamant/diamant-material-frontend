@@ -41,6 +41,7 @@ class SettingsIdentity extends React.Component {
         this.setState({
           hidden: data.hide_identity,
           display_name: data.display_name,
+          selected_option: data.display_name,
           options: tempoptions
         });
       });
@@ -58,14 +59,21 @@ class SettingsIdentity extends React.Component {
     })
   }
 
-  handleSubmit(event) {
-    // const requestOptions = {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({hide_identity: this.state.hidden, display_name: })
-    // }
+  handleSubmit() {
+    const response = fetch("http://192.168.135.128/api/settings/account_settings/", {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      mode: 'cors', // no-cors, *cors, same-origin
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: 'include', // include, *same-origin, omit
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      redirect: 'follow', // manual, *follow, error
+      referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+      body: JSON.stringify({hide_identity: this.state.hidden, display_name: this.state.selected_option}) // body data type must match "Content-Type" header
+    });
+    return response.json(); // parses JSON response into native JavaScript objects
   }
-
 
   render() {
     return(
