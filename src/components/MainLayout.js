@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { styled } from '@material-ui/core/styles';
-import MainNavbar from './MainNavbar';
+import DashboardNavbar from './DashboardNavbar';
 
 const MainLayoutRoot = styled('div')(
   ({ theme }) => ({
@@ -34,7 +34,7 @@ const MainLayoutContent = styled('div')({
 
 const MainLayout = () => (
   <MainLayoutRoot>
-    <MainNavbar />
+    <DashboardNavbar />
     <MainLayoutWrapper>
       <MainLayoutContainer>
         <MainLayoutContent>
