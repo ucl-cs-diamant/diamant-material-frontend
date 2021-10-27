@@ -56,7 +56,6 @@ class Dashboard extends React.Component {
   }
 
   fetchall() {
-    console.log(this.state.user_url)
     fetch(this.state.user_url + '?format=json')
       .then((response) => response.json())
       .then((data) => {
@@ -74,6 +73,7 @@ class Dashboard extends React.Component {
       fetch(this.state.user_url + 'user_code_list/?format=json')
         .then((response) => response.json())
         .then((data) => {
+          console.log(data)
           this.setState({
             commit_time: Intl.DateTimeFormat('en-GB', {
               year: 'numeric',

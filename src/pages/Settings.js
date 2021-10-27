@@ -2,6 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Box, Container } from '@material-ui/core';
 import SettingsIdentity from '../components/settings/SettingsIdentity';
+import SettingsBotSelection from '../components/settings/SettingsBotSelection';
 
 const SettingsView = () => (
   <>
@@ -17,6 +18,8 @@ const SettingsView = () => (
     >
       <Container maxWidth="lg">
         <SettingsIdentity />
+        <br/>
+        <SettingsBotSelection />
       </Container>
     </Box>
   </>
