@@ -1,62 +1,43 @@
-import React from 'react';
 import { Helmet } from 'react-helmet';
-import { Box, Card, CardContent, Container, InputAdornment, SvgIcon, TextField } from '@material-ui/core';
-import LeaderboardResults from '../components/leaderboards/LeaderboardResults';
+import React from 'react';
+import {
+  Box, Card, CardContent,
+  Container,
+  Grid, InputAdornment,
+  SvgIcon, TextField
+} from '@material-ui/core';
+import FAQs from '../__mocks__/FAQs';
 import { Search as SearchIcon } from 'react-feather';
+import FAQcard from '../components/FAQ/FAQcard';
 
-class Leaderboards extends React.Component {
+
+class FAQ extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      main_leaderboard: [],
-      filtered_leaderboard: [],
       filtervalue: "",
-
-      offset: 0,
-      perPage: 5,
-      currentPage: 0,
-      pageCount: 0,
+      filtered_FAQ: FAQs
     };
     this.handlechange = this.handlechange.bind(this);
     this.filtertable = this.filtertable.bind(this)
-  }
-
-  load_user_elos() {
-    fetch(
-      `http://192.168.135.128/api/user_performances/?format=json`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        this.setState({
-          pageCount: Math.ceil(data.count / this.state.perPage),
-
-          main_leaderboard: data,
-          filtered_leaderboard: data,
-        });
-      });
-  }
-
-  componentDidMount() {
-    this.load_user_elos();
-  }
-
-  filtertable() {
-    this.setState({filtered_leaderboard:
-        this.state.main_leaderboard.filter(item => item.user_details.name===null?
-          ('Bot#'+ item.user_details.user_pk).includes(this.state.filtervalue):
-          item.user_details.name.includes(this.state.filtervalue))})
   }
 
   handlechange(event) {
     this.setState({ filtervalue: event.target.value }, () => this.filtertable())
   }
 
+  filtertable() {
+    this.setState({filtered_FAQ:
+        FAQs.filter(item => item.title.toLowerCase().includes(this.state.filtervalue.toLowerCase()) ||
+          item.description.toLowerCase().includes(this.state.filtervalue.toLowerCase()))})
+  }
+
   render() {
     return (
       <>
         <Helmet>
-          <title>Leaderboards</title>
+          <title>FAQ</title>
         </Helmet>
         <Box
           sx={{
@@ -70,7 +51,7 @@ class Leaderboards extends React.Component {
               <Box sx={{ mt: 3 }}>
                 <Card>
                   <CardContent>
-                    <Box sx={{ maxWidth: 500 }}>
+                    <Box sx={{ maxWidth: false }}>
                       <TextField
                         fullWidth
                         InputProps={{
@@ -85,7 +66,7 @@ class Leaderboards extends React.Component {
                             </InputAdornment>
                           )
                         }}
-                        placeholder="Search Player"
+                        placeholder="Search FAQ"
                         variant="outlined"
                         onChange={this.handlechange}
                       />
@@ -95,14 +76,28 @@ class Leaderboards extends React.Component {
               </Box>
             </Box>
             <Box sx={{ pt: 3 }}>
-              <LeaderboardResults leaderboard={this.state.filtered_leaderboard} />
+              <Grid
+                container
+                spacing={3}
+              >
+                {this.state.filtered_FAQ.map((item) => (
+                  <Grid
+                    item
+                    key={item.id}
+                    lg={4}
+                    md={6}
+                    xs={12}
+                  >
+                    <FAQcard FAQ={item} />
+                  </Grid>
+                ))}
+              </Grid>
             </Box>
           </Container>
         </Box>
       </>
-    );
+    )
   }
-
 }
 
-export default Leaderboards;
+export default FAQ;

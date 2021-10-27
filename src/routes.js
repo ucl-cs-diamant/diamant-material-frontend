@@ -14,6 +14,7 @@ import Match from './pages/match';
 import Leaderboards from './pages/leaderboards';
 import MainLayout from './components/MainLayout';
 import Landing from './pages/Landing';
+import FAQ from './pages/FAQ';
 
 const routes = [
   {
@@ -37,6 +38,7 @@ const routes = [
       { path: 'register', element: <Register /> },
       { path: '404', element: <NotFound /> },
       { path: '/', element: <Landing /> },
+      { path: 'FAQ', element: <FAQ /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]
   },
