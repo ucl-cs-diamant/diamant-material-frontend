@@ -3,8 +3,9 @@ import { Helmet } from 'react-helmet';
 import { Formik } from 'formik';
 import { Navigate, useNavigate } from 'react-router-dom';
 import {
+  Alert,
   Box,
-  Button,
+  Button, Collapse,
   Container,
   Grid,
   Typography
@@ -35,12 +36,12 @@ const Logout = () => {
                 { auth === '' && <Navigate to="/" /> }
 
                 <Formik
-                  onSubmit={(actions) => {
+                  onSubmit={(values, actions) => {
                     // Cookies.remove('sessionid');
                     fetch('/api/oauth/logout')
                       .then((response) => {
                         if (response.status !== 200) {
-                          actions.setErrors({ logout_submit: 'Something went wrong with logging out' });
+                          actions.setErrors({ logout_submit: `Something went wrong while logging out (${(new Date()).toISOString()})` });
                           actions.setSubmitting(false);
                           return;
                         }
@@ -49,6 +50,9 @@ const Logout = () => {
                       });
                   }}
                   initialValues={{
+                  }}
+                  initialErrors={{
+                    logout_submit: '',
                   }}
                 >
                   {({
@@ -92,10 +96,13 @@ const Logout = () => {
                               size="large"
                               type="submit"
                               variant="contained"
-                              helperText={errors.logout_submit}
                             >
                               Logout
                             </Button>
+                            <Collapse in={errors.logout_submit !== ''}>
+                              <Alert severity="error">{ errors.logout_submit }</Alert>
+                            </Collapse>
+
                           </Grid>
                           <Grid
                             item
