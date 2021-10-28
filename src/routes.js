@@ -11,6 +11,7 @@ import Leaderboards from './pages/leaderboards';
 import Landing from './pages/Landing';
 import FAQ from './pages/FAQ';
 import GlobalLayout from './components/GlobalLayout';
+import Logout from './pages/Logout';
 
 const routes = [
   {
@@ -32,7 +33,7 @@ const routes = [
     children: [
       { path: 'login', element: <Login /> },
       { path: 'link_account', element: <Token /> },
-      // { path: '404', element: <NotFound /> },
+      { path: 'logout', element: <Logout /> },
       { path: '/', element: <Landing /> },
       { path: 'FAQ', element: <FAQ /> },
       { path: '*', element: <NotFound /> }
