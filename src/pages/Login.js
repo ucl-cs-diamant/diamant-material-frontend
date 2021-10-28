@@ -16,61 +16,39 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
     console.log(props);
+    this.state = { redirect: null };
   }
 
-  // componentDidMount() {
-  //   const queryParams = new URLSearchParams(window.location.search);
-  //   const githubCallbackCode = queryParams.get('code');
-  //   if (githubCallbackCode !== null) {
-  //     // console.log(githubCallbackCode);
-  //     fetch(`/api/oauth/callback?${new URLSearchParams({ code: githubCallbackCode })}`).then(
-  //       (resp) => {
-  //         resp.json().then((data) => {
-  //           if ('redirect' in data) {
-  //             this.setState({ redirect: '/link_account' });
-  //           }
-  //           if ('ok' in data) {
-  //             if (data.ok) {
-  //               this.setState({ redirect: '/app/dashboard' });
-  //             }
-  //           }
-  //         }).catch((e) => {
-  //           console.error(e);
-  //         });
-  //       }
-  //     );
-  //   }
-  // }
+  componentDidMount() {
+    const queryParams = new URLSearchParams(window.location.search);
+    const githubCallbackCode = queryParams.get('code');
+    if (githubCallbackCode !== null) {
+      // console.log(githubCallbackCode);
+      fetch(`/api/oauth/callback?${new URLSearchParams({ code: githubCallbackCode })}`).then(
+        (resp) => {
+          resp.json().then((data) => {
+            if ('redirect' in data) {
+              this.setState({ redirect: '/link_account' });
+            }
+            if ('user' in data) {
+              const { context } = this;
+              context.updateAuth(data.user);
+            }
+            return null;
+          }).catch((e) => {
+            console.error(e);
+          });
+        }
+      );
+    }
+  }
 
   render() {
+    const { auth } = this.context;
+    const { redirect } = this.state;
+
     return (
       <>
-        <AuthContext.Consumer>
-          {({ updateAuth }) => {
-            const queryParams = new URLSearchParams(window.location.search);
-            const githubCallbackCode = queryParams.get('code');
-            if (githubCallbackCode !== null) {
-              // console.log(githubCallbackCode);
-              fetch(`/api/oauth/callback?${new URLSearchParams({ code: githubCallbackCode })}`).then(
-                (resp) => {
-                  resp.json().then((data) => {
-                    if ('redirect' in data) {
-                      // this.setState({ redirect: '/link_account' });
-                      return (<Navigate to="/link_account" />);
-                    }
-                    if ('user' in data) {
-                      updateAuth(data.user);
-                      return (<Navigate to="/" />);
-                    }
-                    return null;
-                  }).catch((e) => {
-                    console.error(e);
-                  });
-                }
-              );
-            }
-          }}
-        </AuthContext.Consumer>
         <Helmet>
           <title>Login</title>
         </Helmet>
@@ -83,6 +61,8 @@ class Login extends React.Component {
             justifyContent: 'center'
           }}
         >
+          { auth !== '' && <Navigate to="/" /> }
+          { redirect !== null && <Navigate to={redirect} /> }
           <Container maxWidth="xs">
             <Formik>
               {({
@@ -136,5 +116,6 @@ class Login extends React.Component {
     );
   }
 }
+Login.contextType = AuthContext;
 
 export default Login;
