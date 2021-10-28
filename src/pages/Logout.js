@@ -9,7 +9,6 @@ import {
   Grid,
   Typography
 } from '@material-ui/core';
-import Cookies from 'js-cookie';
 import AuthContext from '../components/AuthenticationContext';
 
 const Logout = () => {
@@ -36,8 +35,15 @@ const Logout = () => {
                 { auth === '' && <Navigate to="/" /> }
 
                 <Formik
-                  onSubmit={() => {
-                    Cookies.remove('sessionid');
+                  onSubmit={(actions) => {
+                    // Cookies.remove('sessionid');
+                    fetch('/api/oauth/logout')
+                      .then((response) => {
+                        if (response.status !== 200) {
+                          actions.setErrors({ logout_submit: 'Something went wrong with logging out' });
+                          actions.setSubmitting(false);
+                        }
+                      });
                     updateAuth('');
                     navigate('/');
                   }}
@@ -45,6 +51,7 @@ const Logout = () => {
                   }}
                 >
                   {({
+                    errors,
                     handleSubmit,
                     isSubmitting,
                   }) => (
@@ -84,6 +91,7 @@ const Logout = () => {
                               size="large"
                               type="submit"
                               variant="contained"
+                              helperText={errors.logout_submit}
                             >
                               Logout
                             </Button>

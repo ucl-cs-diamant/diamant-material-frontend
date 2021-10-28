@@ -22,6 +22,14 @@ class GlobalLayout extends React.Component {
     };
   }
 
+  // componentDidMount() {
+  //   fetch('/api/settings/account_settings/')
+  //     .then((data) => data.json())
+  //     .then((p) => {
+  //       console.log(p);
+  //     });
+  // }
+
   render() {
     const { authState } = this.state;
     return (
