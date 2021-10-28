@@ -24,7 +24,6 @@ class Dashboard extends React.Component {
     super(props);
 
     this.state = {
-      user_name: '',
       email_address: '',
       github_username: '',
       student_id: '',
@@ -41,7 +40,7 @@ class Dashboard extends React.Component {
       pageCount: 0,
 
       match_history: [],
-      bot_performances: [],
+      bot_performances: {},
       bot_codes: [],
 
       user_url: "",
@@ -76,16 +75,6 @@ class Dashboard extends React.Component {
         this.setState({ github_username: data.github_username });
         this.setState({ student_id: data.student_id });
       })
-      fetch(this.state.user_url + 'performance_list/?format=json')
-        .then((response) => response.json())
-        .then((data) => {
-          this.setState({ bot_performances: data }, () => {
-            this.setState({
-              user_name: this.state.bot_performances[this.state.selected_bot].user_name,
-              mmr: this.state.bot_performances[this.state.selected_bot].mmr,
-              games_played: this.state.bot_performances[this.state.selected_bot].games_played });
-          });
-        })
       fetch(this.state.user_url + 'user_code_list/?format=json')
         .then((response) => response.json())
         .then((data) => {
@@ -101,6 +90,18 @@ class Dashboard extends React.Component {
             }).format(new Date(data[this.state.selected_bot].commit_time)),
           });
           this.setState({ has_failed: data[this.state.selected_bot].has_failed });
+        }
+        )
+        .then(() => {
+          fetch(this.state.user_url + 'performance_list/?format=json&non_primary=true')
+            .then((response) => response.json())
+            .then((data) => {
+              this.setState({ bot_performances: Object.fromEntries(data.map((e) => [e.code,e])) }, () => {
+                this.setState({
+                  mmr: this.state.bot_performances[this.state.bot_codes[this.state.selected_bot].url].mmr,
+                  games_played: this.state.bot_performances[this.state.bot_codes[this.state.selected_bot].url].games_played });
+              });
+            })
         })
       this.load_match_history();
   }
@@ -122,9 +123,8 @@ class Dashboard extends React.Component {
       selected_bot: event.target.value
     }, () => {
       this.setState({
-        user_name: this.state.bot_performances[this.state.selected_bot].user_name,
-        mmr: this.state.bot_performances[this.state.selected_bot].mmr,
-        games_played: this.state.bot_performances[this.state.selected_bot].games_played,
+        mmr: this.state.bot_performances[this.state.bot_codes[this.state.selected_bot].url].mmr,
+        games_played: this.state.bot_performances[this.state.bot_codes[this.state.selected_bot].url].games_played,
 
         commit_time: Intl.DateTimeFormat('en-GB', {
           year: 'numeric',

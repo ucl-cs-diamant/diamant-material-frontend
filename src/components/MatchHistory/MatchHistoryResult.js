@@ -13,6 +13,7 @@ import {
   TableRow,
   Typography
 } from '@material-ui/core';
+import {Link as RouterLink} from 'react-router-dom'
 
 const MatchHistoryResult = ({ matches, ...rest }) => {
   const [selectedMatches] = useState([]);
@@ -35,7 +36,7 @@ const MatchHistoryResult = ({ matches, ...rest }) => {
             <TableHead>
               <TableRow>
                 <TableCell>
-                  Match
+                  Match ID
                 </TableCell>
                 <TableCell>
                   Players
@@ -65,12 +66,15 @@ const MatchHistoryResult = ({ matches, ...rest }) => {
                         display: 'flex'
                       }}
                     >
-                      <Typography
-                        color="textPrimary"
-                        variant="body1"
-                      >
-                        {match.url.split("/")[5]}
-                      </Typography>
+                      {/*todo: link this to matchviewer*/}
+                      <RouterLink to="">
+                        <Typography
+                          color="textPrimary"
+                          variant="body1"
+                        >
+                          {match.match_id}
+                        </Typography>
+                      </RouterLink>
                     </Box>
                   </TableCell>
                   <TableCell>
