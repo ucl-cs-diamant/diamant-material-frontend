@@ -42,10 +42,11 @@ const Logout = () => {
                         if (response.status !== 200) {
                           actions.setErrors({ logout_submit: 'Something went wrong with logging out' });
                           actions.setSubmitting(false);
+                          return;
                         }
+                        updateAuth('');
+                        navigate('/');
                       });
-                    updateAuth('');
-                    navigate('/');
                   }}
                   initialValues={{
                   }}
