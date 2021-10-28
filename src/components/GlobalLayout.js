@@ -9,7 +9,9 @@ class GlobalLayout extends React.Component {
     super(props);
 
     this.updateAuth = (newAuth) => {
-      this.setState({ authState: { auth: newAuth } });
+      const { authState } = this.state;
+      authState.auth = newAuth;
+      this.setState({ authState });
     };
 
     this.state = {
