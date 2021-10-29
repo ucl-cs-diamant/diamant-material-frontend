@@ -111,16 +111,6 @@ class SettingsIdentity extends React.Component {
                 item
                 xs={10}
               >
-                {/*<TextField*/}
-                {/*  fullWidth*/}
-                {/*  label="Display Name"*/}
-                {/*  margin="normal"*/}
-                {/*  name="displayname"*/}
-                {/*  onChange={this.handleDisplaychange}*/}
-                {/*  type="text"*/}
-                {/*  // value={values.password}*/}
-                {/*  variant="outlined"*/}
-                {/*/>*/}
                 <InputLabel id="display_name">Display Name</InputLabel>
                 <Select
                   sx={{width: 1}}

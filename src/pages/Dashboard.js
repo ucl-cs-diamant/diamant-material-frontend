@@ -1,6 +1,16 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { Box, Container, Grid } from '@material-ui/core';
+import {
+  Box,
+  Card,
+  CardContent,
+  CardHeader,
+  Container,
+  Divider,
+  Grid,
+  InputLabel, MenuItem,
+  Select
+} from '@material-ui/core';
 import Sales from '../components/dashboard/Sales';
 import GamesPlayedCard from '../components/dashboard/GamesPlayedCard';
 import CommitTimeCard from '../components/dashboard/CommitTimeCard';
@@ -14,7 +24,6 @@ class Dashboard extends React.Component {
     super(props);
 
     this.state = {
-      user_name: '',
       email_address: '',
       github_username: '',
       student_id: '',
@@ -31,15 +40,18 @@ class Dashboard extends React.Component {
       pageCount: 0,
 
       match_history: [],
+      bot_performances: {},
+      bot_codes: [],
 
       user_url: "",
       selected_bot: 0
 
     };
-    // this.handlePageClick = this.handlePageClick.bind(this);
+    this.handleDisplaychange = this.handleDisplaychange.bind(this);
   }
 
   load_match_history() {
+    console.log(this.state.user_url + `user_match_list/`)
     fetch(this.state.user_url + `user_match_list/?format=json`)
       .then((response) => {
         if(response.status===204) {throw Error(response.statusText)}
@@ -56,7 +68,6 @@ class Dashboard extends React.Component {
   }
 
   fetchall() {
-    console.log(this.state.user_url)
     fetch(this.state.user_url + '?format=json')
       .then((response) => response.json())
       .then((data) => {
@@ -64,16 +75,10 @@ class Dashboard extends React.Component {
         this.setState({ github_username: data.github_username });
         this.setState({ student_id: data.student_id });
       })
-      fetch(this.state.user_url + 'performance_list/?format=json')
-        .then((response) => response.json())
-        .then((data) => {
-          this.setState({ user_name: data[this.state.selected_bot].user_name });
-          this.setState({ mmr: data[this.state.selected_bot].mmr });
-          this.setState({ games_played: data[this.state.selected_bot].games_played });
-        })
       fetch(this.state.user_url + 'user_code_list/?format=json')
         .then((response) => response.json())
         .then((data) => {
+          this.setState({ bot_codes: data });
           this.setState({
             commit_time: Intl.DateTimeFormat('en-GB', {
               year: 'numeric',
@@ -85,6 +90,18 @@ class Dashboard extends React.Component {
             }).format(new Date(data[this.state.selected_bot].commit_time)),
           });
           this.setState({ has_failed: data[this.state.selected_bot].has_failed });
+        }
+        )
+        .then(() => {
+          fetch(this.state.user_url + 'performance_list/?format=json&non_primary=true')
+            .then((response) => response.json())
+            .then((data) => {
+              this.setState({ bot_performances: Object.fromEntries(data.map((e) => [e.code,e])) }, () => {
+                this.setState({
+                  mmr: this.state.bot_performances[this.state.bot_codes[this.state.selected_bot].url].mmr,
+                  games_played: this.state.bot_performances[this.state.bot_codes[this.state.selected_bot].url].games_played });
+              });
+            })
         })
       this.load_match_history();
   }
@@ -101,12 +118,70 @@ class Dashboard extends React.Component {
       });
   }
 
+  handleDisplaychange(event) {
+    this.setState({
+      selected_bot: event.target.value
+    }, () => {
+      this.setState({
+        mmr: this.state.bot_performances[this.state.bot_codes[this.state.selected_bot].url].mmr,
+        games_played: this.state.bot_performances[this.state.bot_codes[this.state.selected_bot].url].games_played,
+
+        commit_time: Intl.DateTimeFormat('en-GB', {
+          year: 'numeric',
+          month: 'short',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+        }).format(new Date(this.state.bot_codes[this.state.selected_bot].commit_time)),
+        has_failed: this.state.bot_codes[this.state.selected_bot].has_failed
+      });
+    })
+  }
+
   render() {
     return (
     <>
       <Helmet>
         <title>Dashboard | Player Home</title>
       </Helmet>
+
+      <Card>
+        <CardHeader
+          title="Bot Selection"
+        />
+        <Divider />
+        <CardContent>
+          <Grid
+            container
+            spacing={6}
+            wrap="wrap"
+            alignItems="center"
+          >
+            <Grid
+              item
+              xs={10}
+            >
+              <InputLabel id="bot_selection">Displayed Bot</InputLabel>
+              <Select
+                sx={{width: 1}}
+                labelId="bot_selection"
+                id="bot_selection"
+                value={this.state.selected_bot}
+                variant='outlined'
+                onChange={this.handleDisplaychange}
+              >
+                {this.state.bot_codes.map((item) => (
+                  item.primary === true ?
+                    <MenuItem key={item.id} value={this.state.bot_codes.indexOf(item)}>Primary: {item.branch} - {item.commit_time}</MenuItem> :
+                    <MenuItem key={item.id} value={this.state.bot_codes.indexOf(item)}>{item.branch} - {item.commit_time}</MenuItem>
+                ))}
+              </Select>
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Card>
+
       <Box
         sx={{
           backgroundColor: 'background.default',
