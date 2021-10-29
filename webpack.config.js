@@ -14,7 +14,7 @@ module.exports = {
     host: '0.0.0.0',
     disableHostCheck: true,
     clientLogLevel: 'trace',
-    onListening(server) { console.log(server.listeningApp.address().port); },
+    // onListening(server) { console.log(server.listeningApp.address().port); },
     watchContentBase: true,
     historyApiFallback: true // need to always serve index.html for any path when using react router
   },

@@ -10,21 +10,19 @@ import {
   Typography
 } from '@material-ui/core';
 import {
-  AlertCircle as AlertCircleIcon,
   BarChart as BarChartIcon,
   Lock as LockIcon,
   Settings as SettingsIcon,
   ShoppingBag as ShoppingBagIcon,
   User as UserIcon,
-  UserPlus as UserPlusIcon,
   Users as UsersIcon
 } from 'react-feather';
 import NavItem from './NavItem';
 
 const user = {
   avatar: '../../public/static/images/avatars/avatar_6.png',
-  student_id: "12313",
-  name: "hello",
+  student_id: '12313',
+  name: 'hello',
 };
 
 const items = [
@@ -39,11 +37,6 @@ const items = [
     title: 'Leaderboards'
   },
   {
-    href: '/app/products',
-    icon: ShoppingBagIcon,
-    title: 'Products'
-  },
-  {
     href: '/app/account',
     icon: UserIcon,
     title: 'Account'
@@ -53,21 +46,7 @@ const items = [
     icon: SettingsIcon,
     title: 'Settings'
   },
-  {
-    href: '/login',
-    icon: LockIcon,
-    title: 'Login'
-  },
-  {
-    href: '/register',
-    icon: UserPlusIcon,
-    title: 'Register'
-  },
-  {
-    href: '/404',
-    icon: AlertCircleIcon,
-    title: 'Error'
-  }
+
 ];
 
 class DashboardSidebar extends React.Component {
@@ -75,21 +54,20 @@ class DashboardSidebar extends React.Component {
     super(props);
 
     this.state = {
-      github_username: "",
-      student_id: "",
-      user_url: ""
-    }
+      github_username: '',
+      student_id: '',
+      user_url: ''
+    };
   }
 
   componentDidMount() {
     fetch(
-      `http://192.168.135.128/api/settings/account_settings/?format=json`,
-      {credentials: 'include'}
+      'http://192.168.135.128/api/settings/account_settings/?format=json',
+      { credentials: 'include' }
     )
       .then((response) => response.json())
       .then((data) => {
-        this.setState({ user_url: data.user }, () =>
-          fetch(this.state.user_url)
+        this.setState({ user_url: data.user }, () => fetch(this.state.user_url)
           .then((response) => response.json())
           .then((data) => {
             this.setState({ github_username: data.github_username });

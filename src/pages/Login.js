@@ -1,181 +1,121 @@
 import React from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import * as Yup from 'yup';
 import { Formik } from 'formik';
+import { Navigate } from 'react-router-dom';
 import {
   Box,
   Button,
   Container,
   Grid,
-  Link,
-  TextField,
   Typography
 } from '@material-ui/core';
-import FacebookIcon from '../icons/Facebook';
-import GoogleIcon from '../icons/Google';
+import GitHubIcon from '@material-ui/icons/GitHub';
+import AuthContext from '../components/AuthenticationContext';
 
-const Login = () => {
-  const navigate = useNavigate();
+class Login extends React.Component {
+  constructor(props) {
+    super(props);
+    console.log(props);
+    this.state = { redirect: null };
+  }
 
-  return (
-    <>
-      <Helmet>
-        <title>Login | Material Kit</title>
-      </Helmet>
-      <Box
-        sx={{
-          backgroundColor: 'background.default',
-          display: 'flex',
-          flexDirection: 'column',
-          height: '100%',
-          justifyContent: 'center'
-        }}
-      >
-        <Container maxWidth="sm">
-          <Formik
-            initialValues={{
-              email: 'demo@devias.io',
-              password: 'Password123'
-            }}
-            validationSchema={Yup.object().shape({
-              email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-              password: Yup.string().max(255).required('Password is required')
-            })}
-            onSubmit={() => {
-              navigate('/app/dashboard', { replace: true });
-            }}
-          >
-            {({
-              errors,
-              handleBlur,
-              handleChange,
-              handleSubmit,
-              isSubmitting,
-              touched,
-              values
-            }) => (
-              <form onSubmit={handleSubmit}>
-                <Box sx={{ mb: 3 }}>
-                  <Typography
-                    color="textPrimary"
-                    variant="h2"
-                  >
-                    Sign in
-                  </Typography>
-                  <Typography
-                    color="textSecondary"
-                    gutterBottom
-                    variant="body2"
-                  >
-                    Sign in on the internal platform
-                  </Typography>
-                </Box>
-                <Grid
-                  container
-                  spacing={3}
-                >
-                  <Grid
-                    item
-                    xs={12}
-                    md={6}
-                  >
-                    <Button
-                      color="primary"
-                      fullWidth
-                      startIcon={<FacebookIcon />}
-                      onClick={handleSubmit}
-                      size="large"
-                      variant="contained"
+  componentDidMount() {
+    const queryParams = new URLSearchParams(window.location.search);
+    const githubCallbackCode = queryParams.get('code');
+    if (githubCallbackCode !== null) {
+      // console.log(githubCallbackCode);
+      fetch(`/api/oauth/callback?${new URLSearchParams({ code: githubCallbackCode })}`).then(
+        (resp) => {
+          resp.json().then((data) => {
+            if ('redirect' in data) {
+              this.setState({ redirect: '/link_account' });
+            }
+            if ('user' in data) {
+              const { context } = this;
+              context.updateAuth(data.user);
+            }
+            return null;
+          }).catch((e) => {
+            console.error(e);
+          });
+        }
+      );
+    }
+  }
+
+  render() {
+    const { auth } = this.context;
+    const { redirect } = this.state;
+
+    return (
+      <>
+        <Helmet>
+          <title>Login</title>
+        </Helmet>
+        <Box
+          sx={{
+            backgroundColor: 'background.default',
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100%',
+            justifyContent: 'center'
+          }}
+        >
+          { auth !== '' && <Navigate to="/" /> }
+          { redirect !== null && <Navigate to={redirect} /> }
+          <Container maxWidth="xs">
+            <Formik>
+              {({
+                handleSubmit,
+              }) => (
+                <form onSubmit={handleSubmit}>
+                  <Box sx={{ mb: 3 }}>
+                    <Typography
+                      color="textPrimary"
+                      variant="h2"
                     >
-                      Login with Facebook
-                    </Button>
-                  </Grid>
+                      Sign in
+                    </Typography>
+                  </Box>
                   <Grid
-                    item
-                    xs={12}
-                    md={6}
+                    container
+                    spacing={3}
                   >
-                    <Button
-                      fullWidth
-                      startIcon={<GoogleIcon />}
-                      onClick={handleSubmit}
-                      size="large"
-                      variant="contained"
+                    <Grid
+                      item
+                      xs={12}
                     >
-                      Login with Google
-                    </Button>
+                      <Button
+                        sx={{ py: 2 }}
+                        color="primary"
+                        fullWidth
+                        startIcon={<GitHubIcon />}
+                        // onClick={handleSubmit}
+                        href="/api/oauth/login"
+                        size="large"
+                        variant="contained"
+                      >
+                        Login with GitHub
+                      </Button>
+                    </Grid>
                   </Grid>
-                </Grid>
-                <Box
-                  sx={{
-                    pb: 1,
-                    pt: 3
-                  }}
-                >
-                  <Typography
-                    align="center"
-                    color="textSecondary"
-                    variant="body1"
-                  >
-                    or login with email address
-                  </Typography>
-                </Box>
-                <TextField
-                  error={Boolean(touched.email && errors.email)}
-                  fullWidth
-                  helperText={touched.email && errors.email}
-                  label="Email Address"
-                  margin="normal"
-                  name="email"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  type="email"
-                  value={values.email}
-                  variant="outlined"
-                />
-                <TextField
-                  error={Boolean(touched.password && errors.password)}
-                  fullWidth
-                  helperText={touched.password && errors.password}
-                  label="Password"
-                  margin="normal"
-                  name="password"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  type="password"
-                  value={values.password}
-                  variant="outlined"
-                />
-                <Box sx={{ py: 2 }}>
-                  <Button
-                    color="primary"
-                    disabled={isSubmitting}
-                    fullWidth
-                    size="large"
-                    type="submit"
-                    variant="contained"
-                  >
-                    Sign in now
-                  </Button>
-                </Box>
-                <Typography
-                  color="textSecondary"
-                  variant="body1"
-                >
-                  Don&apos;t have an account?
-                  {' '}
-                  <Link component={RouterLink} to="/register" variant="h6" underline="hover">
-                    Sign up
-                  </Link>
-                </Typography>
-              </form>
-            )}
-          </Formik>
-        </Container>
-      </Box>
-    </>
-  );
-};
+                  <Box sx={{ py: 2 }}>
+                    <Typography
+                      color="textSecondary"
+                      variant="body1"
+                    >
+                      Don&apos;t have an account? You will be prompted to create an account on the GitHub login page.
+                    </Typography>
+                  </Box>
+                </form>
+              )}
+            </Formik>
+          </Container>
+        </Box>
+      </>
+    );
+  }
+}
+Login.contextType = AuthContext;
 
 export default Login;
